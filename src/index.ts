@@ -1,9 +1,9 @@
 import { findByName, findByStoreName } from "@vendetta/metro";
+import { ReactNative, chroma, constants } from "@vendetta/metro/common";
 import { after } from "@vendetta/patcher";
-import { ReactNative, constants, chroma } from "@vendetta/metro/common";
+import { storage } from "@vendetta/plugin";
 import { TAG_COLORS, TAG_TEXTS } from "./constants";
 import Settings from "./ui/pages/Settings";
-import { storage } from "@vendetta/plugin";
 
 const RowManager = findByName("RowManager")
 
