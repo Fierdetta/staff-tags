@@ -1,7 +1,9 @@
 import { findByName, findByStoreName } from "@vendetta/metro";
 import { after } from "@vendetta/patcher";
-import { constants } from "@vendetta/metro/common";
+import { ReactNative, constants, chroma } from "@vendetta/metro/common";
 import { TAG_COLORS, TAG_TEXTS } from "./constants";
+import Settings from "./ui/pages/Settings";
+import { storage } from "@vendetta/plugin";
 
 const RowManager = findByName("RowManager")
 
@@ -14,6 +16,8 @@ const { Permissions } = constants
 let unpatch
 export default {
     onLoad: () => {
+        storage.useRoleColor ??= false
+
         unpatch = after("generate", RowManager.prototype, ([row], { message }) => {
             if (row.rowType !== 1) return
 
@@ -29,29 +33,31 @@ export default {
                 if (guild.ownerId === authorId) {
                     message.tagText = TAG_TEXTS.OWNER
                     message.tagBackgroundColor = TAG_COLORS.OWNER
-                    return
                 }
 
                 const member = GuildMemberStore.getMember(guildId, authorId)
-                for (const roleId of member?.roles ?? []) {
+                for (const roleId of (!message.tagText ? member?.roles ?? [] : [])) {
                     const role = guild.roles[roleId]
 
                     // Administrator tag
                     if (role.permissions & Permissions.ADMINISTRATOR) {
                         message.tagText = TAG_TEXTS.ADMINISTRATOR
                         message.tagBackgroundColor = TAG_COLORS.ADMINISTRATOR
-                        return
                         // Manager tag
                     } else if (role.permissions & (0n | Permissions.MANAGE_GUILD | Permissions.MANAGE_CHANNELS | Permissions.MANAGE_ROLES | Permissions.MANAGE_WEBHOOKS)) {
                         message.tagText = TAG_TEXTS.MANAGER
                         message.tagBackgroundColor = TAG_COLORS.MANAGER
-                        return
                         // Moderator tag
                     } else if (role.permissions & (0n | Permissions.MANAGE_MESSAGES | Permissions.KICK_MEMBERS | Permissions.BAN_MEMBERS)) {
                         message.tagText = TAG_TEXTS.MODERATOR
                         message.tagBackgroundColor = TAG_COLORS.MODERATOR
-                        return
                     }
+
+                    if (message.tagText) break
+                }
+
+                if (message.tagText && storage.useRoleColor && member?.colorString) {
+                    message.tagBackgroundColor = ReactNative.processColor(chroma(member.colorString).hex())
                 }
             } else {
                 const channel = ChannelStore.getChannel(channelId)
@@ -59,10 +65,10 @@ export default {
                 if (channel.type === 3 && channel.ownerId === authorId) {
                     message.tagText = TAG_TEXTS.OWNER
                     message.tagBackgroundColor = TAG_COLORS.OWNER
-                    return
                 }
             }
         })
     },
-    onUnload: () => unpatch()
+    onUnload: () => unpatch(),
+    settings: Settings
 }
