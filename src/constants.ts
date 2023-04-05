@@ -10,7 +10,7 @@ export const TAG_TEXTS = {
 
 export const TAG_COLORS = {
     OWNER: ReactNative.processColor(chroma(rawColors.ORANGE_345).hex()),
-    ADMINISTRATOR: ReactNative.processColor(chroma(rawColors.RED_500).hex()),
+    ADMINISTRATOR: ReactNative.processColor(chroma(rawColors.RED_560).hex()),
     MANAGER: ReactNative.processColor(chroma(rawColors.GREEN_345).hex()),
     MODERATOR: ReactNative.processColor(chroma(rawColors.BLUE_345).hex())
 }
