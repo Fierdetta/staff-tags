@@ -38,6 +38,7 @@ export default {
                 const member = GuildMemberStore.getMember(guildId, authorId)
                 for (const roleId of (!message.tagText ? member?.roles ?? [] : [])) {
                     const role = guild.roles[roleId]
+                    if (!role) continue
 
                     // Administrator tag
                     if (role.permissions & Permissions.ADMINISTRATOR) {
