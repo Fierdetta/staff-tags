@@ -98,7 +98,7 @@ export default {
             }
 
             // Use top role color for tag
-            if (storage.useRoleColor && row.message.colorString) message.tagBackgroundColor = ReactNative.processColor(chroma(row.message.colorString).hex())
+            if (storage.useRoleColor && row.message.colorString && message.tagText) message.tagBackgroundColor = ReactNative.processColor(chroma(row.message.colorString).hex())
         })
     },
     onUnload: () => unpatch(),
