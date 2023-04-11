@@ -1,5 +1,5 @@
 import { findByName, findByProps, findByStoreName } from "@vendetta/metro";
-import { ReactNative, chroma, constants } from "@vendetta/metro/common";
+import { ReactNative, chroma, constants, i18n } from "@vendetta/metro/common";
 import { after } from "@vendetta/patcher";
 import { storage } from "@vendetta/plugin";
 import Settings from "./ui/pages/Settings";
@@ -16,16 +16,15 @@ const { Permissions } = constants
 const { computePermissions } = findByProps("computePermissions", "canEveryoneRole")
 
 // Strings
-const { Messages } = findByProps("Messages")
 
 let unpatch
 
 const builtInTags = [
-    Messages.AI_TAG,
+    i18n.Messages.AI_TAG,
     //Messages.BOT_TAG_BOT, This is done in our own tags as webhooks use this
-    Messages.BOT_TAG_SERVER,
-    Messages.SYSTEM_DM_TAG_SYSTEM,
-    Messages.GUILD_AUTOMOD_USER_BADGE_TEXT
+    i18n.Messages.BOT_TAG_SERVER,
+    i18n.Messages.SYSTEM_DM_TAG_SYSTEM,
+    i18n.Messages.GUILD_AUTOMOD_USER_BADGE_TEXT
 ]
 
 const tags = [
@@ -40,7 +39,7 @@ const tags = [
         condition: (guild, channel, user) => (guild?.ownerId === user.id) || (channel.type === 3 && channel.ownerId === user.id)
     },
     { 
-        text: Messages.BOT_TAG_BOT,
+        text: i18n.Messages.BOT_TAG_BOT,
         condition: (guild, channel, user) => user.bot
     },
     {
