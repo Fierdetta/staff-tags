@@ -1,19 +1,23 @@
 import { storage } from "@vendetta/plugin";
 import { useProxy } from "@vendetta/storage";
-import { Forms } from "@vendetta/ui/components";
+import { Forms, General } from "@vendetta/ui/components";
 
+const { ScrollView } = General
 const { FormSection, FormSwitchRow } = Forms
 
 export default function Settings() {
     useProxy(storage)
 
-    return (<FormSection title="Tag style">
-        <FormSwitchRow
-            label="Use top role color"
-            value={storage.useRoleColor}
-            onValueChange={(v: boolean) => {
-                storage.useRoleColor = v;
-            }}
-        />
-    </FormSection>)
+    return <ScrollView style={{ flex: 1 }} >
+            <FormSection title="Tag style">
+                <FormSwitchRow
+                    label="Use top role color"
+                    subLabel="This may result in unreadable tags as it isn't possible to change the tag's text color."
+                    value={storage.useRoleColor}
+                    onValueChange={(v: boolean) => {
+                        storage.useRoleColor = v;
+                    }}
+                />
+            </FormSection>
+        </ScrollView>
 }
