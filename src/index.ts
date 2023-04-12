@@ -36,7 +36,7 @@ const tags = [
     {
         text: "OWNER",
         color: rawColors.ORANGE_345,
-        condition: (guild, channel, user) => (guild?.ownerId === user.id) || (channel.type === 3 && channel.ownerId === user.id)
+        condition: (guild, channel, user) => (guild?.ownerId === user.id) || (channel?.type === 3 && channel?.ownerId === user.id)
     },
     { 
         text: i18n.Messages.BOT_TAG_BOT,
@@ -78,7 +78,7 @@ export default {
                     const permissionsInt = computePermissions({
                         user: row.message.author,
                         context: guild,
-                        overwrites: channel.permissionOverwrites
+                        overwrites: channel?.permissionOverwrites
                     })
                     permissions = Object.entries(Permissions)
                         .map(([permission, permissionInt]: [string, bigint]) =>
