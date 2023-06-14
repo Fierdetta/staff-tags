@@ -4,12 +4,28 @@ Shows tags for staff members in chat.
 
 <img src="preview.png" width="300">
 
-The plugin will also patch the following regardless if Custom Tags enabled or not:
+
+### Setting Page and Buttons Descriptions and Actions.
+| Option                   | Category           | Action                                                                                          |
+|--------------------------|--------------------|-------------------------------------------------------------------------------------------------|
+| Note                     | Note               | Note from developer(s).                                                                         |
+| Use Custom Tags settings | Preferences        | If enabled, will use custom tags, and override default tags.                                    |
+| Use Top Color            | Preferences        | If enabled, will use highest role's color of the user's in a server, and override tag color.    |
+| Custom Tags              | Customize          | When clicked, will open a new page with list of custom tags.                                    |
+| [TAG_NAME]               | Tags List          | When clicked, will open a new page for editing said tag.                                        |
+| Add New Tags             | Tags List          | When clicked, will open a new page to add new tag.                                              |
+| Set Permissions          | Tag Permissions    | When clicked, will open a new page with list of permissions.                                    |
+| [PERMISSION_NAME]        | Permisions List    | When clicked, will add the permission to the tag's permissions, and return to editing tag page. |
+| Save Custom Tag          | Editing Custom Tag | When clicked, will save the tag and return to tag list page.                                    |
+| Delete Custom Tag        | Editing Custom Tag | When clicked, will delete the tag and return to tag list page.                                  |
+
+
+### The plugin will also patch the following regardless if Custom Tags enabled or not:
 - Webhook
 - Bot
 - Owner
 
-If Default settings used (Custom Tags Option Disabled) the plugin will shows the following:
+### If Default settings used (Custom Tags Option Disabled) the plugin will shows the following:
 | Display Name | Permissions                                                          |
 |--------------|----------------------------------------------------------------------|
 | ADMIN        | `ADMINISTRATOR`                                                      |
@@ -18,7 +34,7 @@ If Default settings used (Custom Tags Option Disabled) the plugin will shows the
 
 Note: _The default tags can't be themed._
 
-Custom Tag Interface:
+### Custom Tag Interface:
 | Key          | Type     | Description                                                                                          |
 |--------------|----------|------------------------------------------------------------------------------------------------------|
 | Display Name | `String` | Text that will shown on the tag text.                                                                |
