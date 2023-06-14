@@ -1,5 +1,5 @@
 {
-    "name": "Staff Tags FK",
+    "name": "Staff Tags",
     "description": "Shows tags for staff members in chat.",
     "authors": [
         {
@@ -11,7 +11,7 @@
             "id": "692632336961110087"
         }
     ],
-    "main": "index.ts",
+    "main": "src/index.ts",
     "vendetta": {
         "icon": "ic_badge_certified_moderator"
     }
