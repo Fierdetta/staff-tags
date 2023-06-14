@@ -9,7 +9,7 @@ The plugin will also patch the following regardless if Custom Tags enabled or no
 - Bot
 - Owner
 
-If Default settings enabled the plugin will shows the following:
+If Default settings used (Custom Tags Option Disabled) the plugin will shows the following:
 | Display Name | Permissions                                                          |
 |--------------|----------------------------------------------------------------------|
 | ADMIN        | `ADMINISTRATOR`                                                      |
