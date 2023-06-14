@@ -2,7 +2,7 @@ import { findByName, findByProps, findByStoreName } from "@vendetta/metro";
 import { ReactNative, chroma, constants, i18n } from "@vendetta/metro/common";
 import { after } from "@vendetta/patcher";
 import { storage } from "@vendetta/plugin";
-import Settings from "./ui/pages/Settings";
+import Settings from "./Settings";
 import { rawColors } from "@vendetta/ui";
 
 const RowManager = findByName("RowManager")
@@ -17,51 +17,60 @@ const { computePermissions } = findByProps("computePermissions", "canEveryoneRol
 
 // Strings
 
-let unpatch
+let unpatch;
+
+const HEX_regex = /[0-9A-Fa-f]{6}/;
 
 const builtInTags = [
     i18n.Messages.AI_TAG,
-    //Messages.BOT_TAG_BOT, This is done in our own tags as webhooks use this
+    //Messages.BOT_TAG_BOT, This is done in our own default_tags as webhooks use this
     i18n.Messages.BOT_TAG_SERVER,
     i18n.Messages.SYSTEM_DM_TAG_SYSTEM,
     i18n.Messages.GUILD_AUTOMOD_USER_BADGE_TEXT
 ]
 
-const tags = [
+// name String, color String, perms String[]
+
+const builtInReplace = [
     {
-        text: "WEBHOOK",
+        name: "WEBHOOK",
         condition: (guild, channel, user) => user.isNonUserBot()
     },
-
     {
-        text: "OWNER",
+        name: "OWNER",
         color: rawColors.ORANGE_345,
         condition: (guild, channel, user) => (guild?.ownerId === user.id) || (channel?.type === 3 && channel?.ownerId === user.id)
     },
     { 
-        text: i18n.Messages.BOT_TAG_BOT,
+        name: i18n.Messages.BOT_TAG_BOT,
         condition: (guild, channel, user) => user.bot
+    }
+]
+
+const default_tags = [
+    ...builtInReplace,
+    {
+        name: "ADMIN",
+        color: '7f1c1e',
+        perms: ["ADMINISTRATOR"]
     },
     {
-        text: "ADMIN",
-        color: rawColors.RED_560,
-        permissions: ["ADMINISTRATOR"]
-    },
-    {
-        text: "MANAGER",
-        color: rawColors.GREEN_345,
-        permissions: ["MANAGE_GUILD", "MANAGE_CHANNELS", "MANAGE_ROLES", "MANAGE_WEBHOOKS"]
+        name: "MANAGER",
+        color: "26b968",
+        perms: ["MANAGE_GUILD", "MANAGE_CHANNELS", "MANAGE_ROLES", "MANAGE_WEBHOOKS"]
     },
     {
         text: "MOD",
-        color: rawColors.BLUE_345,
-        permissions: ["MANAGE_MESSAGES", "KICK_MEMBERS", "BAN_MEMBERS"]
+        color: "00aafc",
+        perms: ["MANAGE_MESSAGES", "KICK_MEMBERS", "BAN_MEMBERS"]
     }
 ]
 
 export default {
     onLoad: () => {
+        storage.useCustomTags ??= false
         storage.useRoleColor ??= false
+        storage.customTags ??= [];
 
         unpatch = after("generate", RowManager.prototype, ([row], { message }) => {
             // Return if it's not a message row
@@ -73,7 +82,8 @@ export default {
                 const guild = GuildStore.getGuild(guildId)
                 const channel = ChannelStore.getChannel(channelId)
 
-                let permissions
+                let permissions, usedTags;
+
                 if (guild) {
                     const permissionsInt = computePermissions({
                         user: row.message.author,
@@ -86,12 +96,28 @@ export default {
                         .filter(Boolean)
                 }
 
-                for (const tag of tags) {
-                    if (tag.condition?.(guild, channel, row.message.author) ||
-                        tag.permissions?.some(perm => permissions?.includes(perm))) {
-                        message.tagText = tag.text
-                        if (tag.color && !(storage.useRoleColor && row.message.colorString)) message.tagBackgroundColor = ReactNative.processColor(chroma(tag.color).hex())
-                        break
+                if(storage.useCustomTags) {
+                    usedTags = [...builtInReplace, ...storage.customTags]
+                } 
+                else {
+                    usedTags = default_tags;
+                }
+
+                // console.log(usedTags)
+
+                for (const tag of usedTags) {
+                    if ( tag.condition?.(guild, channel, row.message.author) || tag.perms?.some(p => permissions?.includes(p)) ) {
+                        message.tagText = tag.name
+                        if ( tag.color && !(storage.useRoleColor && row.message.colorString) ) {
+                            
+                            if(!tag.color.match(HEX_regex)) tag.color = "68b5d9";
+
+                            if(!tag.color.startsWith('#')) tag.color = `#${tag.color}`;
+
+                            message.tagBackgroundColor = ReactNative.processColor(chroma(tag.color).hex());
+                        }
+
+                        break;
                     }
                 }
             }
