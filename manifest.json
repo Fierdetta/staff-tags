@@ -1,13 +1,17 @@
 {
-    "name": "Staff Tags",
+    "name": "Staff Tags FK",
     "description": "Shows tags for staff members in chat.",
     "authors": [
         {
             "name": "Fiery",
             "id": "890228870559698955"
+        },
+        {
+            "name": "Angel~",
+            "id": "692632336961110087"
         }
     ],
-    "main": "src/index.ts",
+    "main": "index.ts",
     "vendetta": {
         "icon": "ic_badge_certified_moderator"
     }
