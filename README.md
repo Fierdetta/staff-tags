@@ -40,3 +40,12 @@ Note: _The default tags can't be themed._
 | Display Name | `String` | Text that will shown on the tag text.                                                                |
 | Color        | `String` | Valid HEX Code for tag color, if somehow the color is invalid, it'll use `#68b5d9` as Default Color. |
 | Permissions  | `Array`  | Permissions List for the tag to be visible. Can be added with button called `Set Pemissions`         |
+
+
+### Developers
+| Name       |             |                                     |
+|------------|-------------|-------------------------------------|
+| Fiery      | Author      | Created Staff Tags plugin.          |
+| Angel~     | Contributor | Adding Customization to the plugin. |
+
+
