@@ -1,1 +1,1 @@
-{"name":"Staff Tags","description":"Shows tags for staff members in chat.","authors":[{"name":"Fiery","id":"890228870559698955"}],"main":"index.js","vendetta":{"icon":"ic_badge_certified_moderator"},"hash":"6b7f43d881679277813a6ca705829d77fb40630fcd651108941114efeef088d5"}
+{"name":"Staff Tags","description":"Shows extra tags for staff members.","authors":[{"name":"Fiery","id":"890228870559698955"}],"main":"index.js","vendetta":{"icon":"ic_moderation_24px"},"hash":"6b7f43d881679277813a6ca705829d77fb40630fcd651108941114efeef088d5"}
