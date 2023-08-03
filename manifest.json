@@ -1,6 +1,6 @@
 {
     "name": "Staff Tags",
-    "description": "Shows tags for staff members in chat.",
+    "description": "Shows extra tags for staff members.",
     "authors": [
         {
             "name": "Fiery",
@@ -9,6 +9,6 @@
     ],
     "main": "src/index.ts",
     "vendetta": {
-        "icon": "ic_badge_certified_moderator"
+        "icon": "ic_moderation_24px"
     }
 }
