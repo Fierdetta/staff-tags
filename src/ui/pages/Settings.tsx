@@ -9,15 +9,14 @@ export default function Settings() {
     useProxy(storage)
 
     return <ScrollView style={{ flex: 1 }} >
-            <FormSection title="Tag style">
-                <FormSwitchRow
-                    label="Use top role color"
-                    subLabel="This may result in unreadable tags as it isn't possible to change the tag's text color."
-                    value={storage.useRoleColor}
-                    onValueChange={(v: boolean) => {
-                        storage.useRoleColor = v;
-                    }}
-                />
-            </FormSection>
-        </ScrollView>
+        <FormSection title="Tag style">
+            <FormSwitchRow
+                label="Use top role color for tag backgrounds"
+                value={storage.useRoleColor}
+                onValueChange={(v: boolean) => {
+                    storage.useRoleColor = v;
+                }}
+            />
+        </FormSection>
+    </ScrollView>
 }
