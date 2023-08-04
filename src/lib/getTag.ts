@@ -41,7 +41,7 @@ const tags: Tag[] = [
     {
         text: i18n.Messages.BOT_TAG_BOT,
         condition: (guild, channel, user) => user.bot,
-        verified: (guild, channel, user) => user.verified
+        verified: (guild, channel, user) => user.isVerifiedBot()
     },
     {
         text: "ADMIN",
@@ -78,7 +78,7 @@ export default function getTag(guild, channel, user) {
         if (tag.condition?.(guild, channel, user) ||
             tag.permissions?.some(perm => permissions?.includes(perm))) {
 
-            let roleColor = storage.useRoleColor ? GuildMemberStore.getMember(guild.id, user.id)?.colorString : undefined
+            let roleColor = storage.useRoleColor ? GuildMemberStore.getMember(guild?.id, user.id)?.colorString : undefined
             let backgroundColor = roleColor ? roleColor : tag.backgroundColor ?? rawColors.BRAND_500
             let textColor = (roleColor || !tag.textColor) ? (chroma(backgroundColor).get('lab.l') < 70 ? rawColors.WHITE_500 : rawColors.BLACK_500) : tag.textColor
 
@@ -86,7 +86,7 @@ export default function getTag(guild, channel, user) {
                 ...tag,
                 textColor,
                 backgroundColor,
-                verified: typeof tag.verified === "function" ? tag.verified(guild, channel, user) : tag.verified,
+                verified: typeof tag.verified === "function" ? tag.verified(guild, channel, user) : tag.verified ?? false,
                 condition: undefined,
                 permissions: undefined
             }
