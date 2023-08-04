@@ -18,9 +18,10 @@ export default () => after("type", Rows.GuildMemberRow, ([{ guildId, channel, us
 
         if (tag) {
             if (tagComponent) {
-                tagComponent.props.text = tag.text
-                tagComponent.props.textColor = tag.textColor
-                tagComponent.props.backgroundColor = tag.backgroundColor
+                tagComponent.props = {
+                    type: 0,
+                    ...tag
+                }
             } else {
                 const row = findInReactTree(ret, (c) => c.props.style.flexDirection === "row")
                 row.props.children.splice(2, 0,

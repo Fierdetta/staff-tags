@@ -28,9 +28,10 @@ export default () => {
 
             if (tag) {
                 if (tagComponent) {
-                    tagComponent.props.text = tag.text
-                    tagComponent.props.textColor = tag.textColor
-                    tagComponent.props.backgroundColor = tag.backgroundColor
+                    tagComponent.props = {
+                        type: 0,
+                        ...tag
+                    }
                 } else {
                     const row = findInReactTree(ret, (c) => c.props.style.flexDirection === "row")
                     row.props.children.push(

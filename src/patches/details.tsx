@@ -17,9 +17,10 @@ const rowPatch = ([{ guildId, user }], ret) => {
 
         if (tag) {
             if (tagComponent) {
-                tagComponent.props.text = tag.text
-                tagComponent.props.textColor = tag.textColor
-                tagComponent.props.backgroundColor = tag.backgroundColor
+                tagComponent.props = {
+                    type: 0,
+                    ...tag
+                }
             } else {
                 const row = findInReactTree(ret.props.label, (c) => c.props?.lineClamp).props.children
                 row.props.children[1] = (<>
